@@ -4,7 +4,6 @@ class Boid {
     this.velocity = p5.Vector.random2D();
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
-    this.r = 3.0;
     this.maxspeed = 3; // Maximum speed
     this.maxforce = 0.05; // Maximum steering force
   }
