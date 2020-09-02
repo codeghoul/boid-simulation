@@ -18,9 +18,13 @@ class Boid {
     let coh = this.cohesion(neighbors); // Cohesion
 
     // Arbitrarily weight these forces
-    sep.mult(separationSlider.value());
-    ali.mult(alignSlider.value());
-    coh.mult(cohesionSlider.value());
+    // sep.mult(separationSlider.value());
+    // ali.mult(alignSlider.value());
+    // coh.mult(cohesionSlider.value());
+
+    sep.mult(1.5);
+    ali.mult(0.75);
+    coh.mult(1.0);
 
     // Add the force vectors to acceleration
     this.acceleration.add(sep);
@@ -56,22 +60,18 @@ class Boid {
   }
 
   render() {
-    // Draw a triangle rotated in the direction of velocity
     let theta = this.velocity.heading() + radians(90);
-    fill(127);
-    stroke(200);
-    push();
-    translate(this.position.x, this.position.y);
-    rotate(theta);
-    beginShape();
-    vertex(0, -this.r * 2);
-    vertex(-this.r, this.r * 2);
-    vertex(this.r, this.r * 2);
-    endShape(CLOSE);
-    pop();
-    // strokeWeight(8);
-    // stroke(255);
-    // point(this.position.x, this.position.y);
+    this.rotateAndDrawImage(this.position.x, this.position.y, 25, 20, theta);
+  }
+
+  rotateAndDrawImage(imgX, imgY, imgWidth, imgHeight, imgAngle) {
+    imageMode(CENTER);
+    translate(imgX + imgWidth / 2, imgY + imgWidth / 2);
+    rotate(imgAngle);
+    image(img, 0, 0, imgWidth, imgHeight);
+    rotate(-imgAngle);
+    translate(-(imgX + imgWidth / 2), -(imgY + imgWidth / 2));
+    imageMode(CORNER);
   }
 
   // Wraparound
