@@ -23,7 +23,7 @@ class Boid {
     // coh.mult(cohesionSlider.value());
 
     sep.mult(1.5);
-    ali.mult(0.75);
+    ali.mult(1.0);
     coh.mult(1.0);
 
     // Add the force vectors to acceleration
@@ -60,17 +60,20 @@ class Boid {
   }
 
   render() {
+    // Draw a triangle rotated in the direction of velocity
     let theta = this.velocity.heading() + radians(90);
-    this.rotateAndDrawImage(this.position.x, this.position.y, 25, 20, theta);
+    this.rotateAndDrawImage(this.position.x, this.position.y, 20, 20, theta);
   }
 
   rotateAndDrawImage(imgX, imgY, imgWidth, imgHeight, imgAngle) {
     imageMode(CENTER);
-    translate(imgX + imgWidth / 2, imgY + imgWidth / 2);
+    let x = imgX + imgWidth / 2,
+      y = imgY + imgHeight / 2;
+    translate(x, y);
     rotate(imgAngle);
     image(img, 0, 0, imgWidth, imgHeight);
     rotate(-imgAngle);
-    translate(-(imgX + imgWidth / 2), -(imgY + imgWidth / 2));
+    translate(-x, -y);
     imageMode(CORNER);
   }
 

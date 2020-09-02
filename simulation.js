@@ -1,12 +1,8 @@
 let flock;
 
 function setup() {
-  createCanvas(vmin(100), vmin(80), P2D);
-  img = loadImage("img/bug.svg");
-  drawingContext.shadowOffsetX = 5;
-  drawingContext.shadowOffsetY = -5;
-  drawingContext.shadowBlur = 5;
-  drawingContext.shadowColor = "black";
+  createCanvas(vmin(80), vmin(80), P2D);
+  img = loadImage("img/bug20.svg");
   flock = new Flock();
   for (let i = 0; i < 50; i++) {
     let b = new Boid(width / 2, height / 2);
@@ -15,15 +11,13 @@ function setup() {
 }
 
 function draw() {
-  background(127);
+  background(255);
   flock.run();
   flock.update();
+  let fps = frameRate();
+  fill(127);
+  text("FPS: " + fps.toFixed(2), 15, height - 15);
 }
-
-// // Add a new boid into the System
-// function mouseDragged() {
-//   flock.addBoid(new Boid(mouseX, mouseY));
-// }
 
 function vmin(viewportPercent) {
   viewportPercent = viewportPercent / 100;
