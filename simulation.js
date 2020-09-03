@@ -1,11 +1,14 @@
 let flock;
+const obstacles = [];
 let running = true;
 
 function setup() {
   createCanvas(vmin(80), vmin(80), P2D);
-  img = loadImage("img/bug20.svg");
+  imageMode(CENTER);
+  img = loadImage("img/butterfly20.svg");
+  obstacle = loadImage("img/tornado.svg");
   flock = new Flock();
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 150; i++) {
     let b = new Boid(width / 2, height / 2);
     flock.addBoid(b);
   }
@@ -17,10 +20,16 @@ function draw() {
   }
 
   background(255);
-  flock.run();
+
+  for (let o of obstacles) {
+    o.render();
+  }
+
+  flock.run(obstacles);
   flock.update();
+
   let fps = frameRate();
-  fill(127);
+  fill(0);
   text("FPS: " + fps.toFixed(2), 15, height - 15);
 }
 
@@ -38,4 +47,8 @@ function keyPressed() {
     default:
       break;
   } // flip the boolean
+}
+
+function mouseClicked() {
+  obstacles.push(new Obstacle(mouseX, mouseY));
 }

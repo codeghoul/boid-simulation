@@ -11,9 +11,9 @@ class Flock {
     this.boids = new Array();
   }
 
-  run() {
+  run(obstacles) {
     for (let i = 0; i < this.boids.length; i++) {
-      this.boids[i].flock(this.boids); // Passing the entire list of boids to each boid individually
+      this.boids[i].flock(this.boids, obstacles); // Passing the entire list of boids to each boid individually
     }
   }
 

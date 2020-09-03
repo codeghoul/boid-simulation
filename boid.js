@@ -4,31 +4,35 @@ class Boid {
     this.velocity = p5.Vector.random2D();
     this.velocity.setMag(random(2, 4));
     this.acceleration = createVector();
+    this.r = 10;
     this.maxspeed = 3; // Maximum speed
-    this.maxforce = 0.05; // Maximum steering force
+    this.maxforce = 0.15; // Maximum steering force
   }
 
   // We accumulate a new acceleration each time based on three rules
-  flock(boids) {
-    let neighbors = this.getNeighbors(boids);
+  flock(otherBoids, obstacles) {
+    let neighbors = this.getNeighbors(otherBoids);
 
     let sep = this.separate(neighbors); // Separation
     let ali = this.align(neighbors); // Alignment
     let coh = this.cohesion(neighbors); // Cohesion
+    let obs = this.obstacle(obstacles); // Obstacle Avoidance
 
     // Arbitrarily weight these forces
     // sep.mult(separationSlider.value());
     // ali.mult(alignSlider.value());
     // coh.mult(cohesionSlider.value());
 
-    sep.mult(1.5);
+    sep.mult(1.4);
     ali.mult(1.0);
-    coh.mult(1.0);
+    coh.mult(1.1);
+    obs.mult(1.0);
 
     // Add the force vectors to acceleration
     this.acceleration.add(sep);
     this.acceleration.add(ali);
     this.acceleration.add(coh);
+    this.acceleration.add(obs);
   }
 
   getNeighbors(boids) {
@@ -61,19 +65,15 @@ class Boid {
   render() {
     // Draw a triangle rotated in the direction of velocity
     let theta = this.velocity.heading() + radians(90);
-    this.rotateAndDrawImage(this.position.x, this.position.y, 20, 20, theta);
+    this.rotateAndDrawImage(this.position.x, this.position.y, theta);
   }
 
-  rotateAndDrawImage(imgX, imgY, imgWidth, imgHeight, imgAngle) {
-    imageMode(CENTER);
-    let x = imgX + imgWidth / 2,
-      y = imgY + imgHeight / 2;
+  rotateAndDrawImage(x, y, imgAngle) {
     translate(x, y);
     rotate(imgAngle);
-    image(img, 0, 0, imgWidth, imgHeight);
+    image(img, 0, 0, 20, 20);
     rotate(-imgAngle);
     translate(-x, -y);
-    imageMode(CORNER);
   }
 
   // Wraparound
@@ -142,6 +142,12 @@ class Boid {
       steering.sub(this.velocity);
       steering.limit(this.maxforce);
     }
+
+    return steering;
+  }
+
+  obstacle(obstacles) {
+    let steering = createVector();
 
     return steering;
   }
