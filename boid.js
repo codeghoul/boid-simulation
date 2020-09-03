@@ -19,9 +19,9 @@ class Boid {
     let obs = this.obstacle(obstacles); // Obstacle Avoidance
 
     // Arbitrarily weight these forces
-    // sep.mult(separationSlider.value());
-    // ali.mult(alignSlider.value());
-    // coh.mult(cohesionSlider.value());
+    sep.mult(separationSlider.value());
+    ali.mult(alignSlider.value());
+    coh.mult(cohesionSlider.value());
 
     sep.mult(1.4);
     ali.mult(1.0);

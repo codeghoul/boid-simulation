@@ -1,14 +1,33 @@
 let flock;
 const obstacles = [];
 let running = true;
+let canvasContainer;
 
 function setup() {
-  createCanvas(vmin(80), vmin(80), P2D);
+  canvasContainer = document.getElementById("canvasContainer");
+
+  myCanvas = createCanvas(
+    canvasContainer.clientWidth,
+    canvasContainer.clientHeight,
+    P2D
+  );
+
+  myCanvas.parent("canvasContainer");
+  myCanvas.mouseClicked(addObstacle);
+
+  separationSlider = createSlider(0, 2, 1, 0.1);
+  alignSlider = createSlider(0, 2, 1, 0.1);
+  cohesionSlider = createSlider(0, 2, 1, 0.1);
+
+  separationSlider.parent("seperation");
+  alignSlider.parent("alignment");
+  cohesionSlider.parent("cohesion");
+
   imageMode(CENTER);
-  img = loadImage("img/butterfly20.svg");
+  img = loadImage("img/bug20.svg");
   obstacle = loadImage("img/tornado.svg");
   flock = new Flock();
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 100; i++) {
     let b = new Boid(width / 2, height / 2);
     flock.addBoid(b);
   }
@@ -49,6 +68,11 @@ function keyPressed() {
   } // flip the boolean
 }
 
-function mouseClicked() {
+function addObstacle() {
   obstacles.push(new Obstacle(mouseX, mouseY));
+  console.log(obstacles.length);
+}
+
+function windowResized() {
+  resizeCanvas(canvasContainer.clientWidth, canvasContainer.clientHeight);
 }
