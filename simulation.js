@@ -4,20 +4,20 @@ let running = true;
 let canvasContainer;
 
 function setup() {
-  canvasContainer = document.getElementById("canvasContainer");
+  canvasContainer = document.getElementById("canvas-container");
 
-  myCanvas = createCanvas(
+  const myCanvas = createCanvas(
     canvasContainer.clientWidth,
     canvasContainer.clientHeight,
     P2D
   );
 
-  myCanvas.parent("canvasContainer");
+  myCanvas.parent("canvas-container");
   myCanvas.mouseClicked(addObstacle);
 
-  separationSlider = createSlider(0, 2, 1, 0.1);
+  separationSlider = createSlider(0, 2, 1.4, 0.1);
   alignSlider = createSlider(0, 2, 1, 0.1);
-  cohesionSlider = createSlider(0, 2, 1, 0.1);
+  cohesionSlider = createSlider(0, 2, 1.1, 0.1);
 
   separationSlider.parent("seperation");
   alignSlider.parent("alignment");
@@ -26,6 +26,7 @@ function setup() {
   imageMode(CENTER);
   img = loadImage("img/bug20.svg");
   obstacle = loadImage("img/tornado.svg");
+  
   flock = new Flock();
   for (let i = 0; i < 100; i++) {
     let b = new Boid(width / 2, height / 2);

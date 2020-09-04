@@ -2,24 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Boid Simulation</title>
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <script src="p5.min.js"></script>
-    <script src="boid.js"></script>
-    <script src="flock.js"></script>
-    <script src="obstacle.js"></script>
-    <script src="simulation.js"></script>
   </head>
   <body>
     <div id="container">
       <div id="controls">
         <h4>Boids!</h4>
-        <label id="seperation">Seperation</label>
-        <label id="alignment">Alignment</label>
-        <label id="cohesion">Cohesion</label>
+        <div id="range-container">
+          <div id="seperation" class="range"><p>Seperation</p></div>
+          <div id="alignment" class="range"><p>Alignment</p></div>
+          <div id="cohesion" class="range"><p>Cohesion</p></div>
+        </div>
       </div>
-      <div id="canvasContainer"></div>
+      <div id="canvas-container"></div>
     </div>
+    <script src="boid.js"></script>
+    <script src="flock.js"></script>
+    <script src="obstacle.js"></script>
+    <script src="p5.min.js"></script>
+    <script src="simulation.js"></script>
   </body>
 </html>
