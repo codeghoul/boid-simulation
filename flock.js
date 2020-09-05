@@ -9,6 +9,7 @@ class Flock {
   // An array for all the boids
   constructor() {
     this.boids = new Array();
+    this.kd = new KDTree([]);
   }
 
   run(obstacles) {
@@ -18,12 +19,15 @@ class Flock {
   }
 
   update() {
+    this.kd = new KDTree(this.boids);
     for (let i = 0; i < this.boids.length; i++) {
       this.boids[i].update(); // Passing the entire list of boids to each boid individually
     }
+    this.kd.draw();
   }
 
   addBoid(b) {
     this.boids.push(b);
+    this.kd.insert(b);
   }
 }
