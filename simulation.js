@@ -1,6 +1,7 @@
 let flock;
-const obstacles = [];
+let obstacles = [];
 let running = true;
+let obstacleMode = false;
 let canvasContainer;
 
 function setup() {
@@ -26,9 +27,9 @@ function setup() {
   imageMode(CENTER);
   img = loadImage("img/bug20.svg");
   obstacle = loadImage("img/tornado.svg");
-  
+
   flock = new Flock();
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 150; i++) {
     let b = new Boid(width / 2, height / 2);
     flock.addBoid(b);
   }
@@ -64,14 +65,21 @@ function keyPressed() {
     case "p":
       running = !running;
       break;
+    case "o":
+      obstacles = [];
+      obstacleMode = !obstacleMode;
+      break;
     default:
       break;
   } // flip the boolean
 }
 
 function addObstacle() {
+  if (!obstacleMode) {
+    return;
+  }
+
   obstacles.push(new Obstacle(mouseX, mouseY));
-  console.log(obstacles.length);
 }
 
 function windowResized() {
