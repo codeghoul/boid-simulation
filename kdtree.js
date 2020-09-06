@@ -99,6 +99,60 @@ class KDTree {
     return current;
   }
 
+  getNeighbors(boid) {
+    let neighbors = [];
+    let rect = new Rectangle(
+      Math.max(0, boid.position.x - 50),
+      Math.max(0, boid.position.y - 50),
+      Math.min(width, boid.position.x + 50),
+      Math.min(height, boid.position.y + 50)
+    );
+    this.rangeV(this.root, boid, neighbors, rect);
+    return neighbors;
+  }
+
+  rangeV(current, boid, neighbors, rect) {
+    if (current == null) {
+      return;
+    }
+
+    if (current.boid != boid && rect.contains(current.boid)) {
+      neighbors.push(current.boid);
+    }
+
+    let x = current.boid.position.x;
+
+    if (rect.xmin <= x && x <= rect.xmax) {
+      this.rangeH(current.lb, boid, neighbors, rect);
+      this.rangeH(current.rt, boid, neighbors, rect);
+    } else if (rect.xmax < x) {
+      this.rangeH(current.lb, boid, neighbors, rect);
+    } else {
+      this.rangeH(current.rt, boid, neighbors, rect);
+    }
+  }
+
+  rangeH(current, boid, neighbors, rect) {
+    if (current == null) {
+      return;
+    }
+
+    if (current.boid != boid && rect.contains(current.boid)) {
+      neighbors.push(current.boid);
+    }
+
+    let y = current.boid.position.y;
+
+    if (rect.ymin <= y && y <= rect.ymax) {
+      this.rangeV(current.lb, boid, neighbors, rect);
+      this.rangeV(current.rt, boid, neighbors, rect);
+    } else if (rect.ymax < y) {
+      this.rangeV(current.lb, boid, neighbors, rect);
+    } else {
+      this.rangeV(current.rt, boid, neighbors, rect);
+    }
+  }
+
   compareX(p, q) {
     if (p.position.x < q.position.x) return -1;
     if (p.position.x > q.position.x) return +1;
@@ -135,6 +189,7 @@ class KDTree {
       current.boid.position.x,
       current.rect.ymax
     );
+    noStroke();
   }
 
   drawH(current) {
@@ -146,13 +201,14 @@ class KDTree {
       this.drawV(current.rt);
     }
 
-    stroke("black");
+    stroke("blue");
     line(
       current.rect.xmin,
       current.boid.position.y,
       current.rect.xmax,
       current.boid.position.y
     );
+    noStroke();
   }
 }
 
@@ -188,10 +244,10 @@ class Rectangle {
 
   contains(boid) {
     return (
-      boid.position.x >= xmin &&
-      boid.position.x <= xmax &&
-      boid.position.y >= ymin &&
-      boid.position.y <= ymax
+      boid.position.x >= this.xmin &&
+      boid.position.x <= this.xmax &&
+      boid.position.y >= this.ymin &&
+      boid.position.y <= this.ymax
     );
   }
 }

@@ -10,8 +10,10 @@ class Boid {
   }
 
   // We accumulate a new acceleration each time based on three rules
-  flock(otherBoids, obstacles) {
-    let neighbors = this.getNeighbors(otherBoids);
+  flock(neighbors, obstacles) {
+    // let neighbors = this.getNeighbors(otherBoids);
+
+    // console.log(neighbors);
 
     let sep = this.separate(neighbors); // Separation
     let ali = this.align(neighbors); // Alignment
@@ -64,8 +66,15 @@ class Boid {
 
   render() {
     // Draw a triangle rotated in the direction of velocity
-    let theta = this.velocity.heading() + radians(90);
-    this.rotateAndDrawImage(this.position.x, this.position.y, theta);
+    if (debugMode) {
+      stroke("black");
+      strokeWeight(4);
+      point(this.position.x, this.position.y);
+      strokeWeight(1);
+    } else {
+      let theta = this.velocity.heading() + radians(90);
+      this.rotateAndDrawImage(this.position.x, this.position.y, theta);
+    }
   }
 
   rotateAndDrawImage(x, y, imgAngle) {
@@ -90,7 +99,7 @@ class Boid {
     for (let i = 0; i < n; i++) {
       let d = p5.Vector.dist(this.position, neighbors[i].position);
       let diff = p5.Vector.sub(this.position, neighbors[i].position);
-      diff.div(d * d);
+      if (d != 0) diff.div(d * d);
       steering.add(diff);
     }
 

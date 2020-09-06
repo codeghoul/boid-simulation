@@ -10,11 +10,15 @@ class Flock {
   constructor() {
     this.boids = new Array();
     this.kd = new KDTree([]);
+    for (let i = 0; i < 150; i++) {
+      this.addBoid(new Boid(random() * width, random() * height));
+    }
   }
 
   run(obstacles) {
     for (let i = 0; i < this.boids.length; i++) {
-      this.boids[i].flock(this.boids, obstacles); // Passing the entire list of boids to each boid individually
+      let neighbors = this.kd.getNeighbors(this.boids[i]);
+      this.boids[i].flock(neighbors, obstacles); // Passing the entire list of boids to each boid individually
     }
   }
 
@@ -23,7 +27,10 @@ class Flock {
     for (let i = 0; i < this.boids.length; i++) {
       this.boids[i].update(); // Passing the entire list of boids to each boid individually
     }
-    this.kd.draw();
+
+    if (debugMode) {
+      this.kd.draw();
+    }
   }
 
   addBoid(b) {

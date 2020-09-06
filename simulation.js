@@ -2,6 +2,7 @@ let flock;
 let obstacles = [];
 let running = true;
 let obstacleMode = false;
+let debugMode = false;
 let canvasContainer;
 
 function setup() {
@@ -29,10 +30,6 @@ function setup() {
   obstacle = loadImage("img/tornado.svg");
 
   flock = new Flock();
-  for (let i = 0; i < 150; i++) {
-    let b = new Boid(width / 2, height / 2);
-    flock.addBoid(b);
-  }
 }
 
 function draw() {
@@ -68,6 +65,9 @@ function keyPressed() {
     case "o":
       obstacles = [];
       obstacleMode = !obstacleMode;
+      break;
+    case "d":
+      debugMode = !debugMode;
       break;
     default:
       break;
